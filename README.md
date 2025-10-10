@@ -1,4 +1,4 @@
-# NewsGist
+# NewGist
 
 > 华语读者的一站式新闻摘要流水线——自动抓取、结构化解析、AI 精炼、渠道分发，一条命令即可跑通。
 
@@ -18,7 +18,7 @@
 
 ## 概览
 
-NewsGist 面向需要快速掌握华尔街日报（WSJ）重点栏目与中国商务部公告的团队/个人，自动完成：
+NewGist 面向需要快速爬取新闻，自动完成：
 
 1. 打开目标栏目页面，模拟真人滚动，抓取完整 HTML。
 2. 基于 XPath 解析出结构化新闻条目。
@@ -38,7 +38,7 @@ NewsGist 面向需要快速掌握华尔街日报（WSJ）重点栏目与中国�
 
 ```
 ┌────────────┐   ┌──────────────┐   ┌──────────┐   ┌──────────────┐   ┌───────────┐
-│ main.py    │ → │ spider.Scraper │ → │ BaseSite子类 │ → │ AI.summarize_list │ → │ push.wechat │
+│ main.py    │ → │      Scraper │ → │ BaseSite │ → │  summarize   │ → │    push   │
 └────────────┘   └──────────────┘   └──────────┘   └──────────────┘   └───────────┘
       ↑                 │                │                  │                  │
       │                 └─ Zendriver ─────┴─ lxml/XPath ────┴─ OpenAI API ─────┴─ wxauto
@@ -75,7 +75,7 @@ NewsGist 面向需要快速掌握华尔街日报（WSJ）重点栏目与中国�
 ```powershell
 # 1. 克隆项目
 git clone <your-repo-url>
-cd NewsGist
+cd NewGist
 
 # 2. （可选）创建并启用虚拟环境
 python -m venv .venv
@@ -124,7 +124,7 @@ PowerShell 中执行 `python main.py` 即可。
 
 1. 打开「任务计划程序」。
 2. 创建基本任务 → 设置触发时间（如每日早上 7 点）。
-3. 动作为“启动程序”，程序填写 `python`，参数填写完整脚本路径 `c:\path\to\NewsGist\main.py`。
+3. 动作为“启动程序”，程序填写 `python`，参数填写完整脚本路径 `c:\path\to\NewGist\main.py`。
 4. 勾选“使用最高权限运行”，确保存储账号可访问浏览器与微信。
 
 ## 日志与产物

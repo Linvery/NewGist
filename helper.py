@@ -19,7 +19,7 @@ def logger(log_path: str=os.path.join(get_current_directory(),"logs","unknown.lo
         stream=sys.stdout
     )
 
-    logger = logging.getLogger("NewsGist")
+    logger = logging.getLogger("NewGist")
 
     __all__ = ["logger"]
 
