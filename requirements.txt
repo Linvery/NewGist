@@ -1,0 +1,7 @@
+zendriver
+openai
+tenacity
+wxauto
+python-dotenv
+pytest
+pytest-cov
