@@ -1,26 +1,23 @@
 from lxml import html
 from .base import BaseSite
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
+from datetime import datetime
+from helper import today as _today
 
-def _hongkong_yesterday() -> str:
-	yesterday = datetime.now(ZoneInfo("Asia/hong_kong")) - timedelta(days=1)
-	return yesterday.strftime("%Y-%m-%d")
-
-class MofcomBlgg(BaseSite):
+class MofcomZwgk(BaseSite):
     def extract_content(self, html_content: str) -> list[dict]:
-        xml_path = '//*[@id="分页列表"]/div[1]/ul/li'
+        xml_path = '/html/body/div[1]/section/section/div[1]/div[1]/div[1]/ul[2]/li'
         tree = html.fromstring(html_content)
         content:list = tree.xpath(xml_path)  # type: ignore
         results: list[dict] = []
         for elem in content:
             try:
                 title = elem.xpath('./a/text()')[0]
-                date = elem.xpath('./span/text()')[0][1:-1] # 2025年9月25日
-                date = datetime.strptime(date, "%Y-%m-%d").date().strftime("%Y-%m-%d")
-                self.logger.debug("解析到标题: %s 日期: %s 香港昨天日期：%s", title, date, _hongkong_yesterday())
-                # 限制日期为上海时间 -1
-                if date != _hongkong_yesterday():
+                date = elem.xpath('./p/i/text()')[0] # 10-21
+                year = datetime.today().year
+                date = datetime.strptime(f"{year}-{date}", "%Y-%m-%d").date().strftime("%Y-%m-%d")
+                self.logger.debug("解析到标题: %s 日期: %s 香港今日日期：%s", title, date, _today())
+                # 限制日期为今天
+                if date != _today():
                     continue
                 results.append({
                     'title': title,
@@ -34,4 +31,4 @@ class MofcomBlgg(BaseSite):
         return False
 
 def create(logger):
-    return MofcomBlgg(logger)
+    return MofcomZwgk(logger)

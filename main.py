@@ -8,10 +8,11 @@ from push import wechat, slink
 import datetime
 
 sites: list[dict] = [
-    {"url": "https://www.wsj.com/politics/policy","desc": "政治与政策", "module": "wsj_politics_policy"},
-    {"url": "https://www.wsj.com/economy/global","desc": "全球经济", "module": "wsj_economy_global"},
-    {"url": "https://www.wsj.com/world/china", "desc": "中国相关", "module": "wsj_world_china"},
-    {"url": "https://www.mofcom.gov.cn/zcfb/blgg/index.html", "desc": "中国商务部部令公告", "module": "mofcom_blgg"},
+    # {"url": "https://www.wsj.com/politics/policy","desc": "政治与政策", "module": "wsj_general"},
+    # {"url": "https://www.wsj.com/economy/global","desc": "全球经济", "module": "wsj_general"},
+    # {"url": "https://www.wsj.com/world/china", "desc": "中国相关", "module": "wsj_general"},
+    # {"url": "https://www.mofcom.gov.cn/zcfb/blgg/index.html", "desc": "中国商务部部令公告", "module": "mofcom_blgg"},
+    {"url": "https://www.mofcom.gov.cn/zwgk/index.html", "desc": "中国商务部政务公告", "module": "mofcom_zwgk"},
 ]
 
 @retry(stop=stop_after_attempt(3), wait=wait_fixed(2),
@@ -42,15 +43,19 @@ def main(url: str, module: str, desc: str) -> None:
             
         contents:list[dict] = site_handler.extract_content(page_html)
         logger.info("提取的内容: %s", contents)
+
+        if len(contents) == 0:
+            logger.info(f"{url} 没有提取到有效内容，跳过后续处理。")
+            return
         
         # 经过ai处理内容
-        today = datetime.date.today().strftime("%Y年%m月%d日")
-        
+
         # 短链服务 暂时不添加
         # for news in contents:
         #     news["link"] = slink.shorten_url(news["link"])
         
         ai_summarys = ai.summarize_list(contents)
+        today = datetime.date.today().strftime("%Y年%m月%d日")
         summarys = f"{today} {desc} 要闻: \n\n"
         _num = 1
         for summary in ai_summarys:

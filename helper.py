@@ -1,6 +1,8 @@
 import os
 import logging
 import sys
+from zoneinfo import ZoneInfo
+from datetime import datetime
 
 def get_current_directory() -> str:
     # 获取当前文件的绝对路径
@@ -33,3 +35,6 @@ def logger(log_path: str=os.path.join(get_current_directory(),"logs","unknown.lo
     logger.addHandler(file_handler)
     return logger
 
+def today() -> str:
+	today = datetime.now(ZoneInfo("Asia/hong_kong"))
+	return today.strftime("%Y-%m-%d")
