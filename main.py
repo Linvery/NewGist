@@ -4,13 +4,13 @@ import helper
 import os
 from tenacity import retry, stop_after_attempt, wait_fixed,retry_if_not_exception_type
 from AI import ai
-from push import wechat, slink
+from push import wechat
 import datetime
 
 sites: list[dict] = [
-    # {"url": "https://www.wsj.com/politics/policy","desc": "政治与政策", "module": "wsj_general"},
-    # {"url": "https://www.wsj.com/economy/global","desc": "全球经济", "module": "wsj_general"},
-    # {"url": "https://www.wsj.com/world/china", "desc": "中国相关", "module": "wsj_general"},
+    {"url": "https://www.wsj.com/politics/policy","desc": "政治与政策", "module": "wsj_general"},
+    {"url": "https://www.wsj.com/economy/global","desc": "全球经济", "module": "wsj_general"},
+    {"url": "https://www.wsj.com/world/china", "desc": "中国相关", "module": "wsj_general"},
     # {"url": "https://www.mofcom.gov.cn/zcfb/blgg/index.html", "desc": "中国商务部部令公告", "module": "mofcom_blgg"},
     {"url": "https://www.mofcom.gov.cn/zwgk/index.html", "desc": "中国商务部政务公告", "module": "mofcom_zwgk"},
 ]
